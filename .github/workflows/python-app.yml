@@ -1,0 +1,22 @@
+from flask import Flask, request, jsonify
+
+app = Flask(__name__)
+
+@app.route('/webhook', methods=['POST'])
+def webhook():
+    data = request.get_json()
+    print(data)  # Cetak data yang diterima untuk debugging
+
+    # Logika respons berdasarkan data yang diterima
+    if 'message' in data:
+        message = data['message']
+        if 'Hi' in message:
+            response = "Hello! How can I assist you today?"
+        else:
+            response = "I'm a bot, please say 'Hi' to start."
+
+        return jsonify({"response": response})
+    return jsonify({"response": "No message received"})
+
+if __name__ == "__main__":
+    app.run(debug=True)
